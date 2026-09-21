@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Public Evaluation Playbook for AI Assistants and Agents</title>
+<style>
+:root {
+  color-scheme: light;
+  --warmdoc-bg: #f7f3ea;
+  --warmdoc-paper: #fffdf8;
+  --warmdoc-soft: #efe9de;
+  --warmdoc-hover: #f3e9df;
+  --warmdoc-border: #d8d0c3;
+  --warmdoc-text: #29251f;
+  --warmdoc-muted: #6f675d;
+  --warmdoc-accent: #a84f36;
+  --warmdoc-accent-dark: #7a3f2b;
+  --warmdoc-green: #44695a;
+  --warmdoc-amber: #946015;
+  --warmdoc-red: #a9433b;
+  --warmdoc-purple: #6d5a8f;
+  --warmdoc-code: #efe8dc;
+  --warmdoc-pre: #26231f;
+
+  /* Common aliases used by the existing documents. */
+  --bg: var(--warmdoc-bg);
+  --white: var(--warmdoc-paper);
+  --panel: var(--warmdoc-paper);
+  --panel2: var(--warmdoc-soft);
+  --card: var(--warmdoc-paper);
+  --card2: var(--warmdoc-soft);
+  --soft: var(--warmdoc-soft);
+  --ink: var(--warmdoc-text);
+  --txt: var(--warmdoc-text);
+  --text: var(--warmdoc-text);
+  --navy: var(--warmdoc-text);
+  --muted: var(--warmdoc-muted);
+  --dim: var(--warmdoc-muted);
+  --line: var(--warmdoc-border);
+  --border: var(--warmdoc-border);
+  --accent: var(--warmdoc-accent);
+  --blue: var(--warmdoc-accent);
+  --blue-dark: var(--warmdoc-accent-dark);
+  --blue-bg: #f4e4dc;
+  --serviceone: var(--warmdoc-accent);
+  --serviceone-bg: #f4e4dc;
+  --team: var(--warmdoc-accent);
+  --team-bg: #f4e4dc;
+  --pri: var(--warmdoc-red);
+  --pri-bg: #f8e8e4;
+  --good: var(--warmdoc-green);
+  --ok: var(--warmdoc-green);
+  --green: var(--warmdoc-green);
+  --llm: var(--warmdoc-green);
+  --ok-bg: #e8efe9;
+  --green-bg: #e8efe9;
+  --llm-bg: #e8efe9;
+  --teal: #4f7465;
+  --teal-bg: #e8efe9;
+  --warn: var(--warmdoc-amber);
+  --amb: var(--warmdoc-amber);
+  --amber: var(--warmdoc-amber);
+  --warn-bg: #fbf0dd;
+  --amb-bg: #fbf0dd;
+  --amber-bg: #fbf0dd;
+  --bad: var(--warmdoc-red);
+  --red: var(--warmdoc-red);
+  --red-bg: #f8e8e4;
+  --purple: var(--warmdoc-purple);
+  --pur: var(--warmdoc-purple);
+  --ch: var(--warmdoc-purple);
+  --servicetwo: var(--warmdoc-purple);
+  --purple-bg: #f0ebf3;
+  --pur-bg: #f0ebf3;
+  --ch-bg: #f0ebf3;
+  --servicetwo-bg: #f0ebf3;
+  --servicethree: var(--warmdoc-amber);
+  --servicethree-bg: #fbf0dd;
+  --collab: #565b86;
+  --collab-bg: #ececf3;
+  --code-bg: var(--warmdoc-code);
+  --pre-bg: var(--warmdoc-pre);
+  --shadow: 0 12px 34px rgba(74, 58, 42, 0.09);
+}
+
+html {
+  background: var(--warmdoc-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--warmdoc-bg) !important;
+  color: var(--warmdoc-text) !important;
+  font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", system-ui, sans-serif !important;
+}
+
+header.hero,
+.hero {
+  color: var(--warmdoc-text) !important;
+  background: linear-gradient(135deg, #f1dfd2 0%, #fbf8f1 60%, #e7eee5 100%) !important;
+  border-bottom: 1px solid var(--warmdoc-border) !important;
+}
+
+header:not(.hero) {
+  padding: 28px 30px !important;
+  border: 1px solid var(--warmdoc-border) !important;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f1dfd2 0%, #fbf8f1 64%, #efe8dc 100%);
+  box-shadow: var(--shadow);
+}
+
+header.hero p,
+.hero p,
+.hero-lead,
+.hero .sub,
+.hero .meta {
+  color: var(--warmdoc-muted) !important;
+}
+
+.hero::after {
+  border-color: rgba(168, 79, 54, 0.18) !important;
+  box-shadow:
+    0 0 0 44px rgba(168, 79, 54, 0.035),
+    0 0 0 92px rgba(68, 105, 90, 0.025) !important;
+}
+
+.hero .badge,
+.hero .eyebrow,
+.hero .pill,
+header.hero .badge {
+  color: var(--warmdoc-text) !important;
+  background: rgba(255, 253, 248, 0.72) !important;
+  border-color: rgba(111, 103, 93, 0.34) !important;
+}
+
+.eyebrow::before {
+  background: var(--warmdoc-accent) !important;
+}
+
+main {
+  background: var(--warmdoc-paper) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.topnav,
+#bar {
+  background: rgba(255, 253, 248, 0.96) !important;
+  border-color: var(--warmdoc-border) !important;
+}
+
+.topnav strong,
+.topnav a {
+  color: var(--warmdoc-text) !important;
+}
+
+.topnav a:hover,
+.topnav a:focus {
+  color: var(--warmdoc-accent-dark) !important;
+  background: var(--warmdoc-hover) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+strong {
+  color: var(--warmdoc-text);
+}
+
+h2 {
+  border-color: var(--warmdoc-border) !important;
+}
+
+h4,
+a {
+  color: var(--warmdoc-accent) !important;
+}
+
+h2.sec .num {
+  color: var(--warmdoc-paper) !important;
+}
+
+a:hover,
+a:focus {
+  color: var(--warmdoc-accent-dark) !important;
+}
+
+button,
+.button,
+a.button,
+[role="button"] {
+  color: var(--warmdoc-paper) !important;
+  background: var(--warmdoc-accent) !important;
+  border: 1px solid var(--warmdoc-accent) !important;
+  border-radius: 8px;
+  padding: 7px 13px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus,
+a.button:hover,
+a.button:focus,
+[role="button"]:hover,
+[role="button"]:focus {
+  color: #fff !important;
+  background: var(--warmdoc-accent-dark) !important;
+  border-color: var(--warmdoc-accent-dark) !important;
+}
+
+button:focus-visible,
+.button:focus-visible,
+a.button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid rgba(168, 79, 54, 0.32);
+  outline-offset: 2px;
+}
+
+code {
+  color: var(--warmdoc-accent-dark) !important;
+  background: var(--warmdoc-code) !important;
+  border-color: var(--warmdoc-border) !important;
+}
+
+pre {
+  color: #f5efe5 !important;
+  background: var(--warmdoc-pre) !important;
+  border-color: #403a33 !important;
+}
+
+pre code {
+  color: inherit !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+table {
+  color: var(--warmdoc-text);
+  background: var(--warmdoc-paper) !important;
+}
+
+th,
+td {
+  border-color: var(--warmdoc-border) !important;
+}
+
+th {
+  color: var(--warmdoc-text) !important;
+  background: var(--warmdoc-soft) !important;
+}
+
+tbody tr:nth-child(even),
+tbody tr:nth-child(even) td {
+  background: #fbf8f1 !important;
+}
+
+tbody tr:hover,
+tbody tr:hover td {
+  color: var(--warmdoc-text) !important;
+  background: var(--warmdoc-hover) !important;
+}
+
+.card,
+.kpi,
+.gr,
+.nav,
+figure,
+.item,
+.box,
+.callout {
+  color: var(--warmdoc-text);
+  background: var(--warmdoc-paper);
+  border-color: var(--warmdoc-border);
+  box-shadow: 0 6px 20px rgba(74, 58, 42, 0.055);
+}
+
+.kpi b,
+.gr b,
+.value {
+  color: var(--warmdoc-text) !important;
+}
+
+.nav,
+.table-wrap,
+figure {
+  background: var(--warmdoc-paper) !important;
+  border-color: var(--warmdoc-border) !important;
+}
+
+.box.tip,
+.callout.info {
+  background: #edf1eb !important;
+  border-color: var(--warmdoc-green) !important;
+}
+
+.box.fact,
+.callout.good,
+.item.done {
+  background: #e8efe9 !important;
+  border-color: var(--warmdoc-green) !important;
+}
+
+.box.warn,
+.callout.warn {
+  background: #fbf0dd !important;
+  border-color: var(--warmdoc-amber) !important;
+}
+
+.box.unv,
+.callout.purple {
+  background: #f0ebf3 !important;
+  border-color: var(--warmdoc-purple) !important;
+}
+
+.callout.bad {
+  background: #f8e8e4 !important;
+  border-color: var(--warmdoc-red) !important;
+}
+
+.verdict {
+  color: var(--warmdoc-text) !important;
+  background: linear-gradient(135deg, #f1dfd2, #fffdf8 58%, #e7eee5) !important;
+  border-color: var(--warmdoc-border) !important;
+  box-shadow: var(--shadow);
+}
+
+.quote,
+blockquote {
+  color: var(--warmdoc-text) !important;
+  background: #f0ebf3 !important;
+  border-color: var(--warmdoc-purple) !important;
+}
+
+.bar,
+.bar-track,
+#bar .track {
+  background: #e6dfd4 !important;
+}
+
+.bar i,
+.bar-fill,
+#bar .fill {
+  background: linear-gradient(90deg, var(--warmdoc-accent), var(--warmdoc-green)) !important;
+}
+
+.stage {
+  background: linear-gradient(90deg, #f4e4dc, var(--warmdoc-paper)) !important;
+  border-color: var(--warmdoc-accent) !important;
+}
+
+.xlinks a,
+.docnav a {
+  color: var(--warmdoc-text) !important;
+  background: var(--warmdoc-paper) !important;
+  border-color: var(--warmdoc-border) !important;
+}
+
+.xlinks a:hover,
+.docnav a:hover {
+  color: var(--warmdoc-accent-dark) !important;
+  background: var(--warmdoc-hover) !important;
+}
+
+.docnav a.here {
+  color: var(--warmdoc-paper) !important;
+  background: var(--warmdoc-accent) !important;
+  border-color: var(--warmdoc-accent) !important;
+}
+
+.tag {
+  color: #514b43 !important;
+  background: var(--warmdoc-soft) !important;
+  border-color: #c9c0b4 !important;
+}
+
+.pill.p-serviceone,
+.pill.p-team,
+.tag.t-have {
+  color: var(--warmdoc-accent-dark) !important;
+  background: #f4e4dc !important;
+  border-color: #d8b7a8 !important;
+}
+
+.tag.ok,
+.tag.t-ver,
+.t-ship,
+.t-own,
+.status.pass,
+.st-ok {
+  color: #315447 !important;
+  background: #e1ece3 !important;
+  border-color: #abc4b2 !important;
+}
+
+.tag.wip,
+.t-open,
+.t-exp,
+.status.partial,
+.st-part {
+  color: #754b10 !important;
+  background: #f8e9ca !important;
+  border-color: #dfc189 !important;
+}
+
+.tag.no,
+.t-drop,
+.t-none,
+.status.fail,
+.st-no {
+  color: #853730 !important;
+  background: #f4dfdb !important;
+  border-color: #d8a9a2 !important;
+}
+
+.tag.local,
+.tag.q,
+.tag.t-unv,
+.tag.t-cond {
+  color: #594675 !important;
+  background: #f0ebf3 !important;
+  border-color: #c8bad2 !important;
+}
+
+.foot,
+footer,
+.muted,
+.note,
+.small,
+small,
+.sub,
+.src,
+.dt,
+figcaption {
+  color: var(--warmdoc-muted) !important;
+}
+
+@media (max-width: 720px) {
+  header:not(.hero) {
+    padding: 22px !important;
+  }
+
+  .wrap,
+  main,
+  section,
+  .card,
+  .box,
+  .callout,
+  figure {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .item {
+    grid-template-columns: 26px minmax(0, 1fr) !important;
+  }
+
+  .item > * {
+    min-width: 0;
+  }
+
+  .nav ol {
+    columns: 1 !important;
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  code {
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  pre,
+  .ascii {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  pre code {
+    white-space: pre !important;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  img,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  header.hero,
+  .hero,
+  header:not(.hero),
+  main,
+  .card,
+  .kpi,
+  .gr {
+    box-shadow: none !important;
+  }
+}
+
+
+*{box-sizing:border-box}
+body{margin:0;font-size:15px;line-height:1.72}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 96px}
+.hero{padding:54px 24px 42px;margin-bottom:28px}
+.hero-inner{max-width:1180px;margin:0 auto}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.08;margin:0 0 14px;max-width:980px}
+.hero-lead{font-size:18px;max-width:900px}
+.meta{font-size:13px;margin-top:14px}
+.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+.toc{position:sticky;top:16px;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--paper);max-height:calc(100vh - 32px);overflow:auto}
+.toc strong{font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.toc a{display:block;padding:6px 8px;border-radius:7px;text-decoration:none;font-size:13px}
+main{padding:30px 36px;border:1px solid var(--border);border-radius:18px}
+h2{margin:48px 0 16px;padding-bottom:9px;font-size:25px}
+h3{margin:28px 0 10px;font-size:18px}
+p{margin:10px 0}
+.callout{border:1px solid var(--border);border-left-width:5px;border-radius:12px;padding:14px 17px;margin:18px 0}
+.callout .title{display:block;margin-bottom:5px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{border:1px solid var(--border);border-radius:13px;padding:16px 18px}
+.card h3{margin-top:0}
+.table-wrap{overflow-x:auto;margin:14px 0 22px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;border:1px solid var(--border)}
+th{font-size:13px}
+.pill{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:2px 9px;margin:2px 4px 2px 0;font-size:12px;background:var(--soft)}
+.formula{font:14px/1.65 Consolas,"Cascadia Mono",monospace;background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;margin:12px 0;overflow-wrap:anywhere}
+figure{margin:20px 0;padding:14px;border:1px solid var(--border);border-radius:14px;overflow:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+svg text{fill:var(--text);font-family:"Segoe UI","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+.footer{margin-top:46px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.toc{position:static;max-height:none}.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}main{padding:24px 19px}}
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="pill">Public edition</span>
+    <h1>Evaluation Playbook for AI Assistants and Agents</h1>
+    <p class="hero-lead">A practical operating system for representative datasets, validated judges, controlled comparisons, run integrity, execution-path diagnosis, and evidence-based shipping decisions.</p>
+    <p class="meta">Created: <time datetime="2026-09-21">2026-09-21</time> · Last updated: <time datetime="2026-09-21">2026-09-21</time></p>
+    <p class="meta">This edition uses generic product archetypes and contains no private product names, organization details, repository references, identifiers, internal experiment results, or source artifacts.</p>
+  </div>
+</header>
+<div class="wrap">
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+  <strong>Contents</strong>
+  <a href="#north-star">North star</a>
+  <a href="#archetypes">Three archetypes</a>
+  <a href="#lifecycle">Operating system</a>
+  <a href="#comparison">Controlled comparisons</a>
+  <a href="#conversation">Conversation assistants</a>
+  <a href="#cross-context">Cross-context agents</a>
+  <a href="#judges">Judge validation</a>
+  <a href="#integrity">Run integrity</a>
+  <a href="#shipping">Shipping evidence</a>
+  <a href="#failures">Failure library</a>
+  <a href="#template">Definition of Done</a>
+</nav>
+<main>
+<section id="north-star">
+<h2>1. North star</h2>
+<div class="callout good"><strong class="title">Evaluation is a steering system, not a scorecard added at the end.</strong>
+Its quality is bounded first by whether the tasks represent real user work, then by whether the oracle or judge measures the intended construct. A sophisticated metric over the wrong population answers the wrong question precisely.</div>
+<div class="table-wrap"><table><thead><tr><th>Priority</th><th>Question</th></tr></thead><tbody><tr><td>1. Representativeness</td><td>Does the dataset match the tasks, users, and failure distribution that matter?</td></tr><tr><td>2. Oracle validity</td><td>Can correctness be checked from state, evidence, or a contractual invariant?</td></tr><tr><td>3. Judge validity</td><td>Has the scoring instrument been validated against labels or a known condition?</td></tr><tr><td>4. Task success</td><td>Did the user’s job get done, not merely receive polished prose?</td></tr><tr><td>5. Consistency</td><td>Does the system succeed reliably across repeated attempts where every attempt matters?</td></tr><tr><td>6. Operations</td><td>Can the run be reproduced, diagnosed, shipped, and monitored without changing the claim?</td></tr></tbody></table></div>
+</section>
+
+<section id="archetypes">
+<h2>2. Three evaluation archetypes</h2>
+
+<figure aria-labelledby="archetypes-caption">
+<svg viewBox="0 0 1080 380" role="img" aria-label="Three public evaluation archetypes">
+  <rect x="24" y="35" width="310" height="235" rx="16" fill="#f4e4dc" stroke="#a84f36"/>
+  <text x="48" y="70" font-size="19" font-weight="700">Text transformation assistant</text>
+  <text x="48" y="103">rewrite · proofread · draft</text>
+  <text x="48" y="145" font-weight="700">Evaluation focus</text>
+  <text x="48" y="174">meaning preservation</text><text x="48" y="199">requested action</text><text x="48" y="224">controlled comparisons</text>
+  <rect x="385" y="35" width="310" height="235" rx="16" fill="#e8efe9" stroke="#44695a"/>
+  <text x="409" y="70" font-size="19" font-weight="700">Conversation assistant</text>
+  <text x="409" y="103">multi-speaker · multi-turn</text>
+  <text x="409" y="145" font-weight="700">Evaluation focus</text>
+  <text x="409" y="174">task success</text><text x="409" y="199">speaker attribution</text><text x="409" y="224">critical failures</text>
+  <rect x="746" y="35" width="310" height="235" rx="16" fill="#f0ebf3" stroke="#6d5a8f"/>
+  <text x="770" y="70" font-size="19" font-weight="700">Cross-context agent</text>
+  <text x="770" y="103">retrieve · reason · act</text>
+  <text x="770" y="145" font-weight="700">Evaluation focus</text>
+  <text x="770" y="174">authorization and scope</text><text x="770" y="199">evidence coverage</text><text x="770" y="224">execution outcomes</text>
+  <rect x="145" y="310" width="790" height="45" rx="14" fill="#fffdf8" stroke="#d8d0c3"/>
+  <text x="175" y="339" font-weight="700">Shared lifecycle: user contract → dataset → oracle → judge validation → controls → integrity → decision → monitoring</text>
+</svg>
+<figcaption id="archetypes-caption">The archetypes are intentionally generic. They describe evaluation problems, not private products.</figcaption>
+</figure>
+
+<div class="table-wrap"><table><thead><tr><th>Dimension</th><th>Text transformation</th><th>Conversation assistant</th><th>Cross-context agent</th></tr></thead><tbody><tr><td>Unit of success</td><td>A usable transformation that preserves the intended meaning</td><td>A correct and appropriate contribution to a conversation</td><td>A correct outcome reached within authorization and scope</td></tr><tr><td>Primary evidence</td><td>Paired inputs/outputs, requested action, format and language contracts</td><td>Conversation fixture, speaker roles, task assertions, critical failures</td><td>Selected/retrieved/cited evidence, tool parameters, state change, audience</td></tr><tr><td>Typical risk</td><td>Over-editing, semantic drift, or optimizing a proxy preference</td><td>Misattribution, unsupported absence claims, or socially inappropriate action</td><td>Unauthorized retrieval, missed evidence, wrong target, or false action confirmation</td></tr><tr><td>Strongest deterministic checks</td><td>Exact preservation constraints and structural validity</td><td>Speaker/addressee assertions and required/forbidden claims</td><td>Authorization, target selection, parameters, final state, and delivery</td></tr></tbody></table></div>
+</section>
+
+<section id="lifecycle">
+<h2>3. Evaluation operating system</h2>
+
+<figure aria-labelledby="lifecycle-caption">
+<svg viewBox="0 0 1120 410" role="img" aria-label="Evaluation operating system">
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6f675d"/></marker></defs>
+  <g font-size="12">
+    <rect x="20" y="32" width="178" height="76" rx="12" fill="#f4e4dc" stroke="#a84f36"/><text x="36" y="58" font-weight="700">1. Evidence claim</text><text x="36" y="83">Pre-register the claim</text>
+    <rect x="238" y="32" width="178" height="76" rx="12" fill="#fbf0dd" stroke="#946015"/><text x="254" y="58" font-weight="700">2. User contract</text><text x="254" y="83">Define success and refusal</text>
+    <rect x="456" y="32" width="178" height="76" rx="12" fill="#e8efe9" stroke="#44695a"/><text x="472" y="58" font-weight="700">3. Effective config</text><text x="472" y="83">Pin model, prompt, route</text>
+    <rect x="674" y="32" width="178" height="76" rx="12" fill="#f0ebf3" stroke="#6d5a8f"/><text x="690" y="58" font-weight="700">4. Dataset</text><text x="690" y="83">Real tasks and hard cases</text>
+    <rect x="892" y="32" width="198" height="76" rx="12" fill="#fffdf8" stroke="#a84f36"/><text x="908" y="58" font-weight="700">5. Oracle</text><text x="908" y="83">State, source, or contract</text>
+    <line x1="198" y1="70" x2="234" y2="70" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="416" y1="70" x2="452" y2="70" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="634" y1="70" x2="670" y2="70" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="852" y1="70" x2="888" y2="70" stroke="#6f675d" marker-end="url(#arrow)"/>
+    <rect x="20" y="170" width="178" height="76" rx="12" fill="#fffdf8" stroke="#6d5a8f"/><text x="36" y="196" font-weight="700">6. Judge gate</text><text x="36" y="221">Validate the instrument</text>
+    <rect x="238" y="170" width="178" height="76" rx="12" fill="#e8efe9" stroke="#44695a"/><text x="254" y="196" font-weight="700">7. Controls</text><text x="254" y="221">Noise, bounds, power</text>
+    <rect x="456" y="170" width="178" height="76" rx="12" fill="#fbf0dd" stroke="#946015"/><text x="472" y="196" font-weight="700">8. Run integrity</text><text x="472" y="221">Exact outputs and coverage</text>
+    <rect x="674" y="170" width="178" height="76" rx="12" fill="#f4e4dc" stroke="#a84f36"/><text x="690" y="196" font-weight="700">9. Diagnose</text><text x="690" y="221">Find the failing layer</text>
+    <rect x="892" y="170" width="198" height="76" rx="12" fill="#f0ebf3" stroke="#6d5a8f"/><text x="908" y="196" font-weight="700">10. Decision</text><text x="908" y="221">Claim, caveat, rollback</text>
+    <line x1="198" y1="208" x2="234" y2="208" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="416" y1="208" x2="452" y2="208" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="634" y1="208" x2="670" y2="208" stroke="#6f675d" marker-end="url(#arrow)"/><line x1="852" y1="208" x2="888" y2="208" stroke="#6f675d" marker-end="url(#arrow)"/>
+    <rect x="230" y="310" width="280" height="68" rx="12" fill="#edf1eb" stroke="#44695a"/><text x="248" y="337" font-weight="700">11. Shipping evidence</text><text x="248" y="360">Merged ≠ enabled ≠ effective</text>
+    <rect x="610" y="310" width="280" height="68" rx="12" fill="#f4e4dc" stroke="#a84f36"/><text x="628" y="337" font-weight="700">12. Production feedback</text><text x="628" y="360">Refresh tasks and assumptions</text>
+    <line x1="510" y1="344" x2="606" y2="344" stroke="#6f675d" marker-end="url(#arrow)"/>
+  </g>
+</svg>
+<figcaption id="lifecycle-caption">Each stage has its own completion evidence. A later stage cannot retroactively prove an earlier one.</figcaption>
+</figure>
+
+<div class="table-wrap"><table><thead><tr><th>Stage</th><th>Required evidence</th><th>Common failure if skipped</th></tr></thead><tbody><tr><td>Evidence claim</td><td>The maximum claim and the observations that could downgrade it</td><td>The narrative expands after seeing favorable results.</td></tr><tr><td>User contract</td><td>Success, clarification, refusal, abstention, and action completion</td><td>A judge rewards good writing while the task fails.</td></tr><tr><td>Effective configuration</td><td>Model, prompt, effort, route, identity, flags, and environment</td><td>The run tests a different system than the report names.</td></tr><tr><td>Dataset</td><td>Provenance, version, task mix, hard negatives, and exclusions</td><td>Easy or assumed tasks produce false confidence.</td></tr><tr><td>Oracle</td><td>State, source evidence, or contractual execution invariant</td><td>A model judge guesses about data it cannot observe.</td></tr><tr><td>Judge gate</td><td>Human labels or a known-condition split, plus headroom and error handling</td><td>A saturated or misaligned judge is treated as assurance.</td></tr><tr><td>Controls and power</td><td>Same-configuration controls, pairing, bounds, and detectable effect</td><td>Harness noise or drift is attributed to the treatment.</td></tr><tr><td>Run integrity</td><td>Exact successful outputs, coverage, errors, and artifact hashes</td><td>Missing work leaves plausible counts and a clean report.</td></tr><tr><td>Diagnosis</td><td>A failure taxonomy that identifies the broken layer</td><td>The prompt is changed to compensate for data, routing, or tool failures.</td></tr><tr><td>Decision package</td><td>Primary result, controls, caveats, withdrawals, and rollback</td><td>Only the most favorable average reaches reviewers.</td></tr><tr><td>Shipping and monitoring</td><td>Separate evidence for landing, enablement, enforcement, and user impact</td><td>A merged change is mistaken for a production improvement.</td></tr></tbody></table></div>
+</section>
+
+<section id="comparison">
+<h2>4. Controlled comparison pattern</h2>
+<div class="callout warn"><strong class="title">No same-configuration control, no causal result.</strong>
+Run the baseline configuration twice to estimate its drift, and run the treatment configuration twice when its stability is unknown. Stability is a property of a configuration and measurement layer, not a universal constant of the harness.</div>
+<h3>4.1 Pre-register before generating</h3>
+<ul>
+  <li>The single variable intended to change.</li>
+  <li>The primary metric and every guardrail.</li>
+  <li>A minimum meaningful effect and equivalence bounds.</li>
+  <li>The sample size and what effect it can realistically distinguish.</li>
+  <li>Decision branches: ship, reject, equivalent, or inconclusive.</li>
+</ul>
+<h3>4.2 Compare the same cases</h3>
+<p>Pair on a stable semantic key. Identifiers created independently by two pipelines may look compatible while pointing to different inputs. Print a few pairs for human verification before publishing a result.</p>
+<h3>4.3 Keep measurement layers separate</h3>
+<div class="table-wrap"><table><thead><tr><th>Layer</th><th>Example boundary</th><th>Use</th></tr></thead><tbody><tr><td>Service</td><td>Model request to model response</td><td>Compare model-service behavior.</td></tr><tr><td>Client</td><td>Service plus transport and client overhead</td><td>Measure the calling system.</td></tr><tr><td>Agent turn</td><td>Assembly, tools, model calls, and orchestration</td><td>Approximate user waiting time.</td></tr><tr><td>Trial</td><td>Agent turn plus graders</td><td>Measure harness execution, not product latency.</td></tr><tr><td>Wall clock</td><td>All scheduling and serialization</td><td>Operational planning only.</td></tr></tbody></table></div>
+<p>Every layer needs its own control. Repeating an uncontrolled comparison at another layer is not independent corroboration.</p>
+</section>
+
+<section id="conversation">
+<h2>5. Conversation-assistant pattern</h2>
+<p>Aggregate quality scores are not sufficient when a small number of failures are unacceptable. Combine:</p>
+<div class="table-wrap"><table><thead><tr><th>Instrument</th><th>Purpose</th></tr></thead><tbody><tr><td>Task-success assertion</td><td>Did the assistant answer or complete the requested job?</td></tr><tr><td>Speaker/addressee check</td><td>Did it attribute statements and requests to the correct participant?</td></tr><tr><td>Retrieval-honesty check</td><td>Did it distinguish “not found” from “does not exist”?</td></tr><tr><td>Critical-failure rule</td><td>Did any response create a safety, factual, or trust-breaking failure?</td></tr><tr><td>Quality rubric</td><td>Was the useful answer clear, relevant, and readable?</td></tr><tr><td>Category report</td><td>Which scenario class produces the failures?</td></tr></tbody></table></div>
+<div class="callout info"><strong class="title">Why categories matter</strong>
+A single pass rate tells you whether the suite moved. A scenario-level breakdown tells you what to fix. Once a category is saturated, move evaluation budget toward weak or underrepresented categories instead of adding more easy cases.</div>
+</section>
+
+<section id="cross-context">
+<h2>6. Cross-context agent pattern</h2>
+<p>For an agent that searches multiple sources and can take action, response quality is only one scorecard. Track the sets and transitions separately:</p>
+<div class="formula">authorized → selected → retrieved → cited → used in answer → delivered outcome</div>
+<div class="table-wrap"><table><thead><tr><th>Contract</th><th>Question</th></tr></thead><tbody><tr><td>Identity and authorization</td><td>Which principal is running, and what is it allowed to read or change?</td></tr><tr><td>Discovery</td><td>Did the system consider the relevant sources?</td></tr><tr><td>Retrieval</td><td>Did the necessary evidence enter the agent’s context?</td></tr><tr><td>Citation</td><td>Which evidence became visible in the response?</td></tr><tr><td>Answer coverage</td><td>Were the key points supported and included?</td></tr><tr><td>Execution</td><td>Were the right tool and parameters used?</td></tr><tr><td>Final state</td><td>Did the intended state change actually occur?</td></tr><tr><td>Audience</td><td>Was the result delivered to the correct people or destination?</td></tr></tbody></table></div>
+<p>Citation recall is a lower bound on retrieval recall whenever the grader sees only response-visible citations. Instrument the full retrieved set before using citation metrics as a retrieval gate.</p>
+</section>
+
+<section id="judges">
+<h2>7. Validate the judge</h2>
+<h3>7.1 Check discriminative power</h3>
+<p>Split cases by a condition already known to matter—for example, whether required evidence was available. A useful judge should move in the expected direction. A flat judge may still serve as a regression alarm, but it should not decide improvement.</p>
+<h3>7.2 Count headroom in cases</h3>
+<p>A judge near its ceiling cannot show improvement. Report the number of cases that could still improve, not only a mean and standard deviation.</p>
+<h3>7.3 Validate the construct</h3>
+<p>A judge can follow its rubric perfectly and still reward the wrong product behavior. Ask what score it gives to a correct decision to do almost nothing, abstain, or ask for clarification.</p>
+<h3>7.4 Treat explanations as unverified</h3>
+<p>Judge rationales are diagnostic text, not evidence. Verify any factual statement before quoting it in a decision document.</p>
+</section>
+
+<section id="integrity">
+<h2>8. Run integrity and silent failure</h2>
+<div class="callout bad"><strong class="title">A number that a failure can also produce is not a check.</strong>
+If failed trials retain their identifiers, counting identifiers can report a complete run with missing outputs. Verify the property you care about directly.</div>
+<div class="table-wrap"><table><thead><tr><th>Check</th><th>Why it is stronger</th></tr></thead><tbody><tr><td>Exact successful output IDs</td><td>Distinguishes submitted work from completed work.</td></tr><tr><td>Closing banner or final state</td><td>Proves the workflow reached its intended terminal condition.</td></tr><tr><td>Artifact hash and manifest</td><td>Prevents accidental mixing of results and configurations.</td></tr><tr><td>Grader coverage and error denominator</td><td>Makes missing scores and exceptions visible.</td></tr><tr><td>Duration and file-size outliers</td><td>Detects fast failures that serialize little or no output.</td></tr><tr><td>Known-failure mutation</td><td>Proves that the verifier can turn red.</td></tr></tbody></table></div>
+</section>
+
+<section id="shipping">
+<h2>9. Shipping evidence chain</h2>
+
+<figure aria-labelledby="shipping-caption">
+<svg viewBox="0 0 1080 210" role="img" aria-label="Evidence chain from configuration to user impact">
+  <defs><marker id="sarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6f675d"/></marker></defs>
+  <g font-size="12">
+    <rect x="12" y="55" width="142" height="78" rx="12" fill="#fffdf8" stroke="#d8d0c3"/><text x="28" y="84" font-weight="700">Config exists</text><text x="28" y="108">A setting is present</text>
+    <rect x="166" y="55" width="142" height="78" rx="12" fill="#fffdf8" stroke="#d8d0c3"/><text x="182" y="84" font-weight="700">Run completes</text><text x="182" y="108">Artifacts are intact</text>
+    <rect x="320" y="55" width="142" height="78" rx="12" fill="#fbf0dd" stroke="#946015"/><text x="336" y="84" font-weight="700">Causal result</text><text x="336" y="108">Controls support claim</text>
+    <rect x="474" y="55" width="142" height="78" rx="12" fill="#f4e4dc" stroke="#a84f36"/><text x="490" y="84" font-weight="700">Change lands</text><text x="490" y="108">Code is integrated</text>
+    <rect x="628" y="55" width="142" height="78" rx="12" fill="#e8efe9" stroke="#44695a"/><text x="644" y="84" font-weight="700">Feature enables</text><text x="644" y="108">Exposure is verified</text>
+    <rect x="782" y="55" width="142" height="78" rx="12" fill="#f0ebf3" stroke="#6d5a8f"/><text x="798" y="84" font-weight="700">Gate enforces</text><text x="798" y="108">Policy can block</text>
+    <rect x="936" y="55" width="132" height="78" rx="12" fill="#edf1eb" stroke="#44695a"/><text x="952" y="84" font-weight="700">User impact</text><text x="952" y="108">Outcome improves</text>
+    <line x1="154" y1="94" x2="162" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/><line x1="308" y1="94" x2="316" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/><line x1="462" y1="94" x2="470" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/><line x1="616" y1="94" x2="624" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/><line x1="770" y1="94" x2="778" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/><line x1="924" y1="94" x2="932" y2="94" stroke="#6f675d" marker-end="url(#sarrow)"/>
+  </g>
+</svg>
+<figcaption id="shipping-caption">Do not infer the right-hand boxes from evidence that proves only a left-hand box.</figcaption>
+</figure>
+
+<p>A strong change description records:</p>
+<ul>
+  <li>The exact treatment variable and effective configuration.</li>
+  <li>Dataset provenance, version, population, exclusions, and overlap.</li>
+  <li>Controls, primary metric, equivalence bounds, sample limits, and headroom.</li>
+  <li>Run-integrity evidence and complete error/coverage denominators.</li>
+  <li>The supported claim, rejected claims, and unresolved uncertainty.</li>
+  <li>Enablement plan, rollback, monitoring signal, and owner.</li>
+</ul>
+</section>
+
+<section id="failures">
+<h2>10. Failure library</h2>
+<div class="table-wrap"><table><thead><tr><th>Failure pattern</th><th>Preventive rule</th></tr></thead><tbody><tr><td>A treatment looks faster than the baseline</td><td>Compare the effect with same-configuration drift at the same measurement layer.</td></tr><tr><td>A small sample creates a compelling mechanism story</td><td>State power limits before the run and do not generalize from one shard.</td></tr><tr><td>Cross-report pairing yields dramatic results</td><td>Pair on normalized content and manually inspect representative pairs.</td></tr><tr><td>A run contains all expected IDs but less work</td><td>Require successful outputs and independent side-effect checks.</td></tr><tr><td>Every judge passes</td><td>Check saturation, headroom, and whether scores move on a known condition.</td></tr><tr><td>A high average hides trust-breaking failures</td><td>Add critical-failure and zero-tolerance rules.</td></tr><tr><td>A response-visible metric is treated as full-system truth</td><td>Document the grader’s observation boundary and instrument hidden state.</td></tr><tr><td>A run scores well under the wrong identity or route</td><td>Read back runtime identity and effective configuration independently of scores.</td></tr><tr><td>An observational trend reverses after stratification</td><td>Search for case-mix confounders before interpreting aggregate curves.</td></tr><tr><td>A metric exists but never blocks a change</td><td>Verify registry, execution, blocking policy, and required merge checks separately.</td></tr></tbody></table></div>
+</section>
+
+<section id="template">
+<h2>11. Minimum Definition of Done</h2>
+<ol>
+  <li>The user contract and maximum evidence claim fit in one sentence each.</li>
+  <li>A machine-readable manifest records the actual system configuration and environment.</li>
+  <li>The dataset has provenance, versioning, representative task classes, and hard negatives.</li>
+  <li>Deterministic or state-based oracles are used wherever possible.</li>
+  <li>Every model-based judge has demonstrated validity, headroom, and defined error handling.</li>
+  <li>Comparisons use paired cases, same-configuration controls, and pre-registered decision bounds.</li>
+  <li>The report preserves errors, missing outputs, not-applicable cases, and grader coverage.</li>
+  <li>The decision package distinguishes landing, enablement, enforcement, and user impact.</li>
+  <li>Production feedback refreshes the task distribution and regression suite.</li>
+</ol>
+<div class="footer">
+  <p>Generated on 2026-09-21. This public edition intentionally excludes private product names, internal architecture, identifiers, links, experiment values, and artifact inventories.</p>
+</div>
+</section>
+</main>
+</div>
+</div>
+</body>
+</html>
