@@ -45,9 +45,9 @@ terminal state, artifact hashes, grader coverage, error denominators.
 ## Scope
 
 The playbook is provider-neutral and deliberately generic. It describes
-evaluation problems and the methods that address them; it contains no private
-product names, internal architecture, identifiers, experiment values, or
-artifact inventories.
+evaluation problems and the methods that address them. Personal views, not
+those of any employer. Examples are generic and illustrative; the playbook
+contains no employer data, code, product names, or results.
 
 ## License
 
